@@ -3,7 +3,7 @@
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileAllowed
 from flask_login import current_user
-from wtforms import StringField, PasswordField, SubmitField, BooleanField
+from wtforms import StringField, PasswordField, SubmitField, BooleanField, TextAreaField, MultipleFileField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
 # Local
 from flask_family_site.models import User
@@ -64,4 +64,11 @@ class Update_Account_Form(FlaskForm):
             if user:
                 raise ValidationError('That email is already taken, please \
                         choose another.')
+
+
+class Post_Form(FlaskForm):
+    title = StringField('Title', validators=[DataRequired()])
+    content = TextAreaField('Description', validators=[DataRequired()])
+    images = MultipleFileField('File(s) Upload')
+    submit = SubmitField('Post')
 

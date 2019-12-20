@@ -8,32 +8,19 @@ from flask import render_template, url_for, flash, redirect, request
 from flask_login import login_user, current_user, logout_user, login_required
 # Local
 from flask_family_site.models import User, Post
-from flask_family_site.forms import Registration_Form, Login_Form, Update_Account_Form
+from flask_family_site.forms import Registration_Form, Login_Form, \
+        Update_Account_Form, Post_Form
 from flask_family_site import app, db, bcrypt
-
-
-# Fake data for early testing
-posts = [
-        {
-            'author': 'Rich Stadnick',
-            'title': 'First Post',
-            'content': 'First post content',
-            'date_posted': 'April 20th, 2019'
-            },
-        {
-            'author': 'Shawna Stadnick',
-            'title': 'Second Post',
-            'content': 'Second post content',
-            'date_posted': 'April 25th, 2019'
-            }
-        ]
 
 ## app.route's
 # Main or Home page(index)
 @app.route("/")
 @app.route("/home")
 def home():
-    return render_template('home.html', posts=posts)
+    posts = Post.query.all()
+    pic_path = os.path.join(app.root_path, 'static/post_pics/')
+    #  pic_path = url_for('static', filename='post_pics/')
+    return render_template('home.html', posts=posts, os=os, pic_path=pic_path)
 
 # About page
 @app.route("/about")
@@ -127,4 +114,48 @@ def account():
             current_user.profile_image)
     return render_template('account.html', title='My Account', \
             image_file=image_file, form=form)
+
+# Save Post pics
+def save_post_pics(pic,dir):
+    post_pics_dir = dir
+    pics_hex = secrets.token_hex(8)
+    _, f_ext = os.path.splitext(pic.filename)
+    the_pic = pics_hex + f_ext
+    pic_path = os.path.join(app.root_path, 'static/post_pics', post_pics_dir, the_pic)
+
+    base_width = 600
+    i = Image.open(pic)
+    wpercent = (base_width/float(i.size[0]))
+    hsize = int((float(i.size[1])*float(wpercent)))
+    i_resized = i.resize((base_width,hsize), Image.ANTIALIAS)
+    i_resized.save(pic_path)
+    return the_pic
+
+# Save Post dir
+def save_post_dir():
+    dir_hex = secrets.token_hex(8)
+    return dir_hex
+
+# Post function and route
+@app.route("/post/new", methods=['GET','POST'])
+@login_required
+def new_post():
+    form = Post_Form()
+    if form.validate_on_submit():
+        post_pics_dir = save_post_dir()
+        post = Post(title=form.title.data,content=form.content.data, images=post_pics_dir, author=current_user)
+        db.session.add(post)
+        db.session.commit()
+        new_dir = os.path.join(app.root_path, 'static/post_pics', post_pics_dir)
+        os.makedirs(new_dir)
+        post_files = []
+        for file in form.images.data:
+            post_files = save_post_pics(file, post_pics_dir)
+            print(post_files)
+        flash('Your post has been created!', 'success')
+        return redirect(url_for('home'))
+    return render_template('create_post.html', title="New Post", form=form)
+
+
+
 

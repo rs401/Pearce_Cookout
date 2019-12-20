@@ -1,15 +1,35 @@
 {% extends "layout.html" %}
 {% block content %}
+<div class="content-section">
+    <h2 class="text-info">Latest Posts</h2>
     {% for post in posts %}
-        <article class="media content-section">
-          <div class="media-body">
+    <article class="media content-section bg-dark">
+        <div class="media-body">
             <div class="article-metadata">
-              <a class="mr-2" href="#">{{ post.author }}</a>
-              <small class="text-muted">{{ post.date_posted }}</small>
+                <a class="mr-2 text-info" href="#">{{ post.author.username }}</a>
+                <small class="text-muted">{{ post.date_posted }}</small>
             </div>
-            <h2><a class="article-title" href="#">{{ post.title }}</a></h2>
-            <p class="article-content text-muted">{{ post.content }}</p>
-          </div>
-        </article>
+            <h2><a class="text-info" href="#">{{ post.title }}</a></h2>
+            <p class="article-content">{{ post.content }}</p>
+            <p>
+            </p>
+            <div class="row">
+                <div class="col-md-12">
+                    <div id="mdb-lightbox-ui"></div>
+                    <div class="mdb-lightbox no-margin">
+                        {% for file in os.listdir(os.path.join(pic_path,post.images)) %}
+                        <figure class="col-md-4">
+                            <a href="static/post_pics/{{ post.images +"/"+ file }}">
+                                <img alt="picture" src="static/post_pics/{{ post.images +"/"+ file }}" class="img-fluid">
+                            </a>
+                        </figure>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </article>
     {% endfor %}
+</div>
 {% endblock content %}
