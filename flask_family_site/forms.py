@@ -70,5 +70,5 @@ class Post_Form(FlaskForm):
     title = StringField('Title', validators=[DataRequired()])
     content = TextAreaField('Description', validators=[DataRequired()])
     images = MultipleFileField('File(s) Upload')
-    submit = SubmitField('Post')
+    submit = SubmitField('Submit')
 

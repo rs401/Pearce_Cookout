@@ -4,28 +4,22 @@
     <h2 class="text-info">Latest Posts</h2>
     {% for post in posts %}
     <article class="media content-section bg-dark">
+        <img class="rounded-circle article-img" src="{{ url_for('static', filename='profile_pics/' + post.author.profile_image)  }}">
         <div class="media-body">
             <div class="article-metadata">
                 <a class="mr-2 text-info" href="#">{{ post.author.username }}</a>
-                <small class="text-muted">{{ post.date_posted }}</small>
+                <small class="text-muted">{{ post.date_posted.strftime('%d-%m-%Y') }}</small>
             </div>
-            <h2><a class="text-info" href="#">{{ post.title }}</a></h2>
+            <h2><a class="text-info" href="{{ url_for('post',post_id=post.id) }}">{{ post.title }}</a></h2>
             <p class="article-content">{{ post.content }}</p>
-            <p>
-            </p>
-            <div class="row">
-                <div class="col-md-12">
-                    <div id="mdb-lightbox-ui"></div>
-                    <div class="mdb-lightbox no-margin">
+            <div class="pic_row">
                         {% for file in os.listdir(os.path.join(pic_path,post.images)) %}
-                        <figure class="col-md-4">
+                <div class="column">
                             <a href="static/post_pics/{{ post.images +"/"+ file }}">
                                 <img alt="picture" src="static/post_pics/{{ post.images +"/"+ file }}" class="img-fluid">
                             </a>
-                        </figure>
-                        {% endfor %}
-                    </div>
                 </div>
+                        {% endfor %}
             </div>
 
         </div>
