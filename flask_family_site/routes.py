@@ -21,10 +21,7 @@ def home():
     page = request.args.get('page', 1, type=int)
     posts = Post.query.order_by(Post.date_posted.desc()).paginate(page=page, \
             per_page=5)
-    #  posts = Post.query.order_by(Post.date_posted).all()
-    #  posts.reverse()
     pic_path = os.path.join(app.root_path, 'static/post_pics/')
-    #  pic_path = url_for('static', filename='post_pics/')
     return render_template('home.html', posts=posts, os=os, pic_path=pic_path)
 
 # About page
@@ -126,7 +123,8 @@ def save_post_pics(pic,dir):
     pics_hex = secrets.token_hex(8)
     _, f_ext = os.path.splitext(pic.filename)
     the_pic = pics_hex + f_ext
-    pic_path = os.path.join(app.root_path, 'static/post_pics', post_pics_dir, the_pic)
+    pic_path = os.path.join(app.root_path, 'static/post_pics', post_pics_dir, \
+            the_pic)
 
     base_width = 600
     i = Image.open(pic)
@@ -148,10 +146,12 @@ def new_post():
     form = Post_Form()
     if form.validate_on_submit():
         post_pics_dir = save_post_dir()
-        post = Post(title=form.title.data,content=form.content.data, images=post_pics_dir, author=current_user)
+        post = Post(title=form.title.data,content=form.content.data, \
+                images=post_pics_dir, author=current_user)
         db.session.add(post)
         db.session.commit()
-        new_dir = os.path.join(app.root_path, 'static/post_pics', post_pics_dir)
+        new_dir = os.path.join(app.root_path, 'static/post_pics', \
+                post_pics_dir)
         os.makedirs(new_dir)
         post_files = []
         for file in form.images.data:
@@ -167,7 +167,8 @@ def new_post():
 def post(post_id):
     post = Post.query.get_or_404(post_id)
     pic_path = os.path.join(app.root_path, 'static/post_pics/')
-    return render_template('post.html', title=post.title, post=post, os=os, pic_path=pic_path)
+    return render_template('post.html', title=post.title, post=post, os=os, \
+            pic_path=pic_path)
 
 # Update Post function and route
 @app.route("/post/<int:post_id>/update", methods=['GET','POST'])
@@ -211,4 +212,15 @@ def delete_post(post_id):
     flash('Your post has been deleted!', 'success')
     return redirect(url_for('home'))
 
+
+# User's Posts function and route
+@app.route("/user/<string:username>")
+def user_posts(username):
+    page = request.args.get('page', 1, type=int)
+    user = User.query.filter_by(username=username).first_or_404()
+    posts = Post.query.filter_by(author=user)\
+            .order_by(Post.date_posted.desc()).paginate(page=page, per_page=5)
+    pic_path = os.path.join(app.root_path, 'static/post_pics/')
+    return render_template('user_posts.html', user=user, posts=posts, os=os, \
+            pic_path=pic_path)
 

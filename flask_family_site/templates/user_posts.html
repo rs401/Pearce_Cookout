@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 {% block content %}
 <div class="content-section">
-    <h2 class="text-info">Latest Posts</h2>
+    <h2 class="text-info mb-2">Posts by: {{ user.username }} ({{ posts.total }})</h2>
     {% for post in posts.items %}
     <article class="media content-section bg-dark">
         <img class="rounded-circle article-img" src="{{ url_for('static', filename='profile_pics/' + post.author.profile_image)  }}">
@@ -15,8 +15,8 @@
             <div class="pic_row">
                 {% for file in os.listdir(os.path.join(pic_path,post.images)) %}
                 <div class="column">
-                    <a href="static/post_pics/{{ post.images +"/"+ file }}">
-                        <img alt="picture" src="static/post_pics/{{ post.images +"/"+ file }}" class="img-fluid">
+                    <a href="../static/post_pics/{{ post.images +"/"+ file }}">
+                        <img alt="picture" src="../static/post_pics/{{ post.images +"/"+ file }}" class="img-fluid">
                     </a>
                 </div>
                 {% endfor %}
@@ -28,9 +28,9 @@
     {% for page_num in posts.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
         {% if page_num  %}
             {% if posts.page == page_num %}
-                <a class="btn btn-outline-info mb-4" href="{{ url_for('home', page=page_num) }}">{{ page_num }}</a>
+                <a class="btn btn-outline-info mb-4" href="{{ url_for('user_posts', page=page_num, username=user.username) }}">{{ page_num }}</a>
             {% else %}
-                <a class="btn btn-info mb-4" href="{{ url_for('home', page=page_num) }}">{{ page_num }}</a>
+                <a class="btn btn-info mb-4" href="{{ url_for('user_posts', page=page_num, username=user.username) }}">{{ page_num }}</a>
             {% endif %}
         {% else %}
             ...
