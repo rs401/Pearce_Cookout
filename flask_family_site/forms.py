@@ -69,7 +69,7 @@ class Update_Account_Form(FlaskForm):
 class Post_Form(FlaskForm):
     title = StringField('Title', validators=[DataRequired()])
     content = TextAreaField('Description', validators=[DataRequired()])
-    images = MultipleFileField('File(s) Upload')
+    images = MultipleFileField('Upload Images')
     submit = SubmitField('Submit')
 
 # Request Reset Form for requesting a pasword reset

@@ -129,7 +129,10 @@ def save_post_pics(pic,dir):
             the_pic)
 
     base_width = 600
-    i = Image.open(pic)
+    try:
+        i = Image.open(pic)
+    except:
+        return
     wpercent = (base_width/float(i.size[0]))
     hsize = int((float(i.size[1])*float(wpercent)))
     i_resized = i.resize((base_width,hsize), Image.ANTIALIAS)
@@ -158,7 +161,6 @@ def new_post():
         post_files = []
         for file in form.images.data:
             post_files = save_post_pics(file, post_pics_dir)
-            print(post_files)
         flash('Your post has been created!', 'success')
         return redirect(url_for('home'))
     return render_template('create_post.html', title='New Post', form=form, \
