@@ -65,10 +65,31 @@ class Update_Account_Form(FlaskForm):
                 raise ValidationError('That email is already taken, please \
                         choose another.')
 
-
+# Post Form for creating and updating posts
 class Post_Form(FlaskForm):
     title = StringField('Title', validators=[DataRequired()])
     content = TextAreaField('Description', validators=[DataRequired()])
     images = MultipleFileField('File(s) Upload')
     submit = SubmitField('Submit')
+
+# Request Reset Form for requesting a pasword reset
+class Request_Reset_Form(FlaskForm):
+    email = StringField('Email', validators=[DataRequired(), Email()])
+    submit = SubmitField('Request Password Reset')
+
+    # Validate account email exists
+    def validate_email(self,email):
+        user = User.query.filter_by(email=email.data).first()
+        if user is None:
+            raise ValidationError('That email does not match any account. \
+                    Please register first.')
+
+
+# Reset Password Form
+class Reset_Password_Form(FlaskForm):
+    password = PasswordField('Password', validators=[DataRequired()])
+    confirm_password = PasswordField('Confirm Password', \
+            validators=[DataRequired(), EqualTo('password')])
+    submit = SubmitField('Reset Password')
+
 
