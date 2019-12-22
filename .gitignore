@@ -137,5 +137,5 @@ my_config.py
 site.db
 
 # Images
-**/profile_pics
+**/profile_pics/*
 **/post_pics/*
