@@ -24,7 +24,7 @@ def home():
     posts = Post.query.order_by(Post.date_posted.desc()).paginate(page=page, \
             per_page=5)
     pic_path = os.path.join(app.root_path, 'static/post_pics/')
-    return render_template('home.html', posts=posts, os=os, pic_path=pic_path)
+    return render_template('home.html', posts=posts, os=os, pic_path=pic_path, header_img=True)
 
 # About page
 @app.route("/about")

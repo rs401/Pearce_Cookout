@@ -46,7 +46,9 @@
                     </div>
                 </div>
             </nav>
+            {% if header_img %}
             <img style="margin-top: -24px;" src="{{url_for('static', filename='Pearce_Cookout_header.png')}}" class="img-fluid rounded mx-auto d-block" alt="Pearce_Cookout_header"/>
+            {% endif %}
         </header>
 
         <main role="main" class="container">
