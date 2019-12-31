@@ -39,8 +39,9 @@
         <div class="form-group">
             {{ form.submit(class="btn btn-outline-info") }}
             <small class="text-muted ml-2">
-                <a href="{{ url_for('reset_request') }}">Forgot Password?</a>
+                <a href="{{ url_for('reset_request') }}">Forgot Password?</a> &nbsp;
             </small>
+            <div class="fb-login-button" data-width="" data-size="medium" data-button-type="continue_with" data-auto-logout-link="false" data-use-continue-as="false"></div>
         </div>
     </form>
 </div>

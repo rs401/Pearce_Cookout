@@ -5,8 +5,10 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
 from flask_mail import Mail
+from rauth import OAuth2Service
 # Local
-from flask_family_site.my_config import my_secret, my_user, my_password
+from flask_family_site.my_config import my_secret, my_user, my_password, \
+        fb_id, fb_secret
 
 ## Config
 app = Flask(__name__)
@@ -24,6 +26,23 @@ app.config['MAIL_PORT'] = 587
 app.config['MAIL_USE_TLS'] = True
 app.config['MAIL_USERNAME'] = my_user
 app.config['MAIL_PASSWORD'] = my_password
+
+#  facebook = OAuth2Service(
+#          client_id=fb_id,
+#          client_secret=fb_secret,
+#          name='facebook',
+#          authorize_url='https://graph.facebook.com/oauth/authorize',
+#          access_token_url='https://graph.facebook.com/oauth/access_token',
+#          base_url='https://graph.facebook.com/'
+#          )
+
+app.config['OAUTH_CREDENTIALS'] = {
+        'facebook': {
+            'id': fb_id,
+            'secret': fb_secret
+            }
+        }
+
 mail = Mail(app)
 
 from flask_family_site import routes
