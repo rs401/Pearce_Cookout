@@ -288,14 +288,14 @@ def reset_token(token):
     return render_template('reset_token.html', title='Reset Password', \
             form=form)
 
-@app.route('/authorize/<provider>')
+@app.route('/authorize/<provider>', methods=['GET',POST'])
 def oauth_authorize(provider):
     if not current_user.is_anonymous:
         return redirect(url_for('home'))
     oauth = OAuthSignIn.get_provider(provider)
     return oauth.authorize()
 
-@app.route('/callback/<provider>', methods=['POST'])
+@app.route('/callback/<provider>', methods=['GET',POST'])
 def oauth_callback(provider):
     if not current_user.is_anonymous:
         return redirect(url_for('home'))
