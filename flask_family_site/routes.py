@@ -32,6 +32,11 @@ def home():
 def about():
     return render_template('about.html', title='About')
 
+# Privacy policy page
+@app.route("/pp")
+def pp():
+    return render_template('pp.html', title='Privacy Policy')
+
 # Login page
 @app.route("/login", methods=['GET','POST'])
 def login():
