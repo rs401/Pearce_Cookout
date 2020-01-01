@@ -39,10 +39,10 @@
         <div class="form-group">
             {{ form.submit(class="btn btn-outline-info") }}
             <small class="text-muted ml-2">
-                <a href="{{ url_for('reset_request') }}">Forgot Password?</a> &nbsp;
+                <a href="{{ url_for('reset_request') }}">Forgot Password?</a>
             </small>
             OR
-            <a href="{{url_for('oauth_authorize', provider='facebook')}}" class="btn btn-outline-info" >Login with Facebook</a>
+            <p><a href="{{ url_for('oauth_authorize', provider='facebook') }}" class="btn btn-outline-info" >Login with Facebook</a></p>
 
             <div class="fb-login-button" data-width="" data-size="medium" data-button-type="continue_with" data-auto-logout-link="false" data-use-continue-as="false"></div>
 
