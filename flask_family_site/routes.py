@@ -37,6 +37,11 @@ def about():
 def pp():
     return render_template('pp.html', title='Privacy Policy')
 
+# TOS page
+@app.route("/tos")
+def tos():
+    return render_template('tos.html', title='TOS')
+
 # Login page
 @app.route("/login", methods=['GET','POST'])
 def login():
