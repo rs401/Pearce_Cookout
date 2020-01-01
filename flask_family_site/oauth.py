@@ -63,8 +63,7 @@ class FacebookSignIn(OAuthSignIn):
             data={'code': request.args['code'],
                   'grant_type': 'authorization_code',
                   'redirect_uri': self.get_callback_url()},
-            #  decoder=decode_json
-            decoder=json.loads
+            decoder=decode_json
         )
         me = oauth_session.get('me').json()
         return (
