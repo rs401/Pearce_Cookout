@@ -14,6 +14,7 @@ from flask_family_site.forms import (Registration_Form, Login_Form, \
         Update_Account_Form, Post_Form, Request_Reset_Form, \
         Reset_Password_Form)
 from flask_family_site import app, db, bcrypt, mail
+from flask_family_site.oauth import OAuthSignIn
 
 ## app.route's
 # Main or Home page(index)
@@ -279,14 +280,14 @@ def reset_token(token):
 
 @app.route("/authorize/<provider>")
 def oauth_authorize(provider):
-    if not current_user.is_anonymous():
+    if not current_user.is_anonymous:
         return redirect(url_for('home'))
     oauth = OAuthSignIn.get_provider(provider)
     return oauth.authorize()
 
 @app.route('/callback/<provider>')
 def oauth_callback(provider):
-    if not current_user.is_anonymous():
+    if not current_user.is_anonymous:
         return redirect(url_for('home'))
     oauth = OAuthSignIn.get_provider(provider)
     social_id, username, email = oauth.callback()
@@ -295,7 +296,7 @@ def oauth_callback(provider):
         return redirect(url_for('home'))
     user = User.query.filter_by(social_id=social_id).first()
     if not user:
-        user = User(social_id=social_id, username=username, email=email)
+        user = User(social_id=social_id, username=username, email=email, password="fb")
         db.session.add(user)
         db.session.commit()
     login_user(user, True)
