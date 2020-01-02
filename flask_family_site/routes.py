@@ -64,7 +64,7 @@ def login():
             flash('Unsuccessful Login! Please check your email and password',\
                 'danger')
     # Return for GET request
-    return render_template('login.html', title='Login', form=form)
+    return render_template('login.html', title='Login', form=form, header_img=True)
 
 # Register page
 @app.route("/register", methods=['GET','POST'])

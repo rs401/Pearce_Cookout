@@ -1,12 +1,9 @@
 {% extends "layout.html" %}
 {% block content %}
 <div class="content-section bg-dark">
-    <form action="" method="POST" accept-charset="utf-8">
-        {{ form.hidden_tag() }}
-        <div class="form-group mx-auto">
-            <a href="{{ url_for('oauth_authorize', provider='facebook') }}" class="btn btn-outline-info" >Login with Facebook</a>
+        <div class="mx-auto">
+            <a href="{{ url_for('oauth_authorize', provider='facebook') }}" class="btn btn-outline-info mt-2 mb-2" >Login with Facebook</a>
         </div>
-    </form>
 </div>
 <div class="border-top pt-3">
 </div>
