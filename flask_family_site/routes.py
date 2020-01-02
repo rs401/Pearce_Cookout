@@ -288,7 +288,7 @@ def reset_token(token):
     return render_template('reset_token.html', title='Reset Password', \
             form=form)
 
-@app.route('/authorize/<provider>', methods=['GET',POST'])
+@app.route('/authorize/<provider>', methods=['GET'])
 def oauth_authorize(provider):
     if not current_user.is_anonymous:
         return redirect(url_for('home'))
