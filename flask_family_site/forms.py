@@ -8,36 +8,37 @@ from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationE
 # Local
 from flask_family_site.models import User
 
-# Registration Form and Function
-class Registration_Form(FlaskForm):
-    # Validate all the things are real and/or matching
-    username = StringField('Username', validators=[DataRequired(), \
-            Length(min=2, max=20)])
-    email = StringField('Email', validators=[DataRequired(), Email()])
-    password = PasswordField('Password', validators=[DataRequired()])
-    confirm_password = PasswordField('Confirm Password', \
-            validators=[DataRequired(), EqualTo('password')])
-    submit = SubmitField('SignUp')
-
-    # Validate unique username
-    def validate_username(self,username):
-        user = User.query.filter_by(username=username.data).first()
-        if user:
-            raise ValidationError('That username is already taken, please \
-                    choose another.')
-    # Validate unique email
-    def validate_email(self,email):
-        user = User.query.filter_by(email=email.data).first()
-        if user:
-            raise ValidationError('That email is already taken, please \
-                    choose another.')
-
-# Login Form and Function
-class Login_Form(FlaskForm):
-    email = StringField('Email', validators=[DataRequired(), Email()])
-    password = PasswordField('Password', validators=[DataRequired()])
-    remember = BooleanField('Remember Me')
-    submit = SubmitField('Login')
+# Commenting reg and login, using FB login
+# # Registration Form and Function
+# class Registration_Form(FlaskForm):
+#     # Validate all the things are real and/or matching
+#     username = StringField('Username', validators=[DataRequired(), \
+#             Length(min=2, max=20)])
+#     email = StringField('Email', validators=[DataRequired(), Email()])
+#     password = PasswordField('Password', validators=[DataRequired()])
+#     confirm_password = PasswordField('Confirm Password', \
+#             validators=[DataRequired(), EqualTo('password')])
+#     submit = SubmitField('SignUp')
+#
+#     # Validate unique username
+#     def validate_username(self,username):
+#         user = User.query.filter_by(username=username.data).first()
+#         if user:
+#             raise ValidationError('That username is already taken, please \
+#                     choose another.')
+#     # Validate unique email
+#     def validate_email(self,email):
+#         user = User.query.filter_by(email=email.data).first()
+#         if user:
+#             raise ValidationError('That email is already taken, please \
+#                     choose another.')
+#
+# # Login Form and Function
+# class Login_Form(FlaskForm):
+#     email = StringField('Email', validators=[DataRequired(), Email()])
+#     password = PasswordField('Password', validators=[DataRequired()])
+#     remember = BooleanField('Remember Me')
+#     submit = SubmitField('Login')
 
 
 # Update Account Form and Function
@@ -72,24 +73,25 @@ class Post_Form(FlaskForm):
     images = MultipleFileField('Upload Images')
     submit = SubmitField('Submit')
 
-# Request Reset Form for requesting a pasword reset
-class Request_Reset_Form(FlaskForm):
-    email = StringField('Email', validators=[DataRequired(), Email()])
-    submit = SubmitField('Request Password Reset')
-
-    # Validate account email exists
-    def validate_email(self,email):
-        user = User.query.filter_by(email=email.data).first()
-        if user is None:
-            raise ValidationError('That email does not match any account. \
-                    Please register first.')
-
-
-# Reset Password Form
-class Reset_Password_Form(FlaskForm):
-    password = PasswordField('Password', validators=[DataRequired()])
-    confirm_password = PasswordField('Confirm Password', \
-            validators=[DataRequired(), EqualTo('password')])
-    submit = SubmitField('Reset Password')
+# Commenting password reset, using FB login
+# # Request Reset Form for requesting a pasword reset
+# class Request_Reset_Form(FlaskForm):
+#     email = StringField('Email', validators=[DataRequired(), Email()])
+#     submit = SubmitField('Request Password Reset')
+#
+#     # Validate account email exists
+#     def validate_email(self,email):
+#         user = User.query.filter_by(email=email.data).first()
+#         if user is None:
+#             raise ValidationError('That email does not match any account. \
+#                     Please register first.')
+#
+#
+# # Reset Password Form
+# class Reset_Password_Form(FlaskForm):
+#     password = PasswordField('Password', validators=[DataRequired()])
+#     confirm_password = PasswordField('Confirm Password', \
+#             validators=[DataRequired(), EqualTo('password')])
+#     submit = SubmitField('Reset Password')
 
 

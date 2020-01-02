@@ -1,0 +1,15 @@
+{% extends "layout.html" %}
+{% block content %}
+<article class="media content-section bg-dark">
+    <div class="media-body">
+        <div class="article-metadata">
+            <h1 class="ml-2 text-info">Whoops</h1>
+        </div>
+        <p class="article-content text-muted"><h3>Error: {{ error }}</h3></p>
+        <p class="article-content text-muted">Whoops! We had a piece of watermelon for you but Irie ate it...</p>
+        <p class="article-content text-muted">
+            <img src="{{url_for('static', filename='404.jpg')}}" class="img-fluid rounded mx-auto d-block" alt="404 Whoops"/>
+        </p>
+    </div>
+</article>
+{% endblock content %}
